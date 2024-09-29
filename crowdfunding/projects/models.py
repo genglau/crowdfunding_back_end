@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 # Create your models here.
 
@@ -9,6 +10,11 @@ class Project(models.Model):
    image = models.URLField()
    is_open = models.BooleanField()
    date_created = models.DateTimeField(auto_now_add=True)
+   owner = models.ForeignKey(
+      get_user_model(),
+      on_delete=models.CASCADE,
+      related_name='owned_projects'
+   )
 
 class Pledge(models.Model):
    amount = models.IntegerField()
@@ -18,4 +24,9 @@ class Pledge(models.Model):
       'Project',
       on_delete=models.CASCADE,#means if delete the project, then all the pledges will be deleted
       related_name='pledges'#"the other end"
+   )
+   supporter = models.ForeignKey(
+      get_user_model(),
+      on_delete=models.CASCADE,
+      related_name='pledges'
    )
