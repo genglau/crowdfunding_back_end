@@ -53,38 +53,7 @@ ERD
 
 User:
 
-One-to-Many with Project: A user (kid) can create multiple projects.
-One-to-Many with Pledge: A user can make multiple pledges on different projects.
-One-to-Many with Comment: A user can comment on multiple projects.
-One-to-Many with Notification: Each user can have multiple notifications.
-Project:
-
-Many-to-One with User: Each project has one creator (a user).
-One-to-Many with Pledge: A project can receive multiple pledges from different users.
-One-to-Many with Comment: A project can have multiple comments.
-Many-to-Many with Category via ProjectCategory: A project can belong to multiple categories.
-One-to-Many with Reward: A project can have multiple reward tiers.
-Pledge:
-
-Many-to-One with User: Each pledge is made by one user.
-Many-to-One with Project: Each pledge is associated with one project.
-Category:
-
-Many-to-Many with Project via ProjectCategory: A category can contain multiple projects.
-ProjectCategory:
-
-Many-to-One with Project: Connects a project to a category.
-Many-to-One with Category: Connects a category to a project.
-Comment:
-
-Many-to-One with User: Each comment is made by one user.
-Many-to-One with Project: Each comment belongs to one project.
-Reward:
-
-Many-to-One with Project: Each reward belongs to one project.
-Notification:
-
-Many-to-One with User: Each notification is directed to one user.
+refer to file erd.drawio
 
 
 REST API Endpoints
@@ -103,18 +72,4 @@ Pledge Endpoints
     1. POST /api/projects/{project_id}/pledges/: Creates a new pledge for a project by a user.
     2. GET /api/projects/{project_id}/pledges/: Lists all pledges for a project.
     3. DELETE /api/projects/{project_id}/pledges/{pledge_id}/: Cancels a pledge (may depend on project status).
-Category Endpoints
-    1. GET /api/categories/: Lists all project categories.
-    2. POST /api/categories/: Creates a new category (admin access).
-    3. GET /api/categories/{category_id}/projects/: Lists all projects under a specific category.
-Comment Endpoints
-    1. POST /api/projects/{project_id}/comments/: Adds a new comment to a project.
-    2. GET /api/projects/{project_id}/comments/: Lists all comments for a project.
-    3. DELETE /api/comments/{comment_id}/: Deletes a comment (either by comment owner or project owner).
-Reward Endpoints
-    1. GET /api/projects/{project_id}/rewards/: Lists all rewards for a project.
-    2. POST /api/projects/{project_id}/rewards/: Adds a new reward tier (creator access).
-    3. DELETE /api/projects/{project_id}/rewards/{reward_id}/: Deletes a reward tier (creator access).
-Notification Endpoints
-    1. GET /api/users/{user_id}/notifications/: Lists all notifications for a user.
-    2. PUT /api/notifications/{notification_id}/: Marks a notification as read.
+
