@@ -1,5 +1,10 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from django.apps import apps
+from .models import Project
+
+CustomUser = get_user_model()
+
 
 class PledgeSerializer(serializers.ModelSerializer):
     supporter = serializers.ReadOnlyField(source='supporter.id') #Add Update Method to PledgeSerializer
@@ -32,6 +37,14 @@ class ProjectSerializer(serializers.ModelSerializer):
     
     def get_funding_progress(self, obj):
         return obj.calculate_funding_progress()
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    owner = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
+
+    class Meta:
+        model = Project
+        fields = '__all__'
 
 
 class ProjectDetailSerializer(ProjectSerializer):

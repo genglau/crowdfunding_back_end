@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
+from rest_framework import generics, permissions
 from .permissions import IsOwnerOrReadOnly, IsSupporterOrReadOnly
 from django.http import Http404
 from .models import Project, Pledge
@@ -12,7 +13,7 @@ class ProjectList(APIView):
    return a list of all projects. Class base view
    """
 
-   def get(self, request):
+   def get(self,request):
        projects = Project.objects.all()
        serializer = ProjectSerializer(projects, many=True)
        return Response(serializer.data)
@@ -29,6 +30,16 @@ class ProjectList(APIView):
            serializer.errors,
            status=status.HTTP_400_BAD_REQUEST
        )
+   
+
+class ProjectList(generics.ListCreateAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 """
 Retrieve a project by its pk
  """
@@ -121,3 +132,14 @@ class PledgeDetail(APIView):  # provides detail and update functionality for ind
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class ProjectDeleteView(generics.DestroyAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+
+
+class PledgeDeleteView(generics.DestroyAPIView):
+    queryset = Pledge.objects.all()
+    serializer_class = PledgeSerializer
+    permission_classes = [permissions.IsAuthenticated, IsSupporterOrReadOnly]
