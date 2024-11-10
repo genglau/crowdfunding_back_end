@@ -73,3 +73,4 @@ Pledge Endpoints
     2. GET /api/projects/{project_id}/pledges/: Lists all pledges for a project.
     3. DELETE /api/projects/{project_id}/pledges/{pledge_id}/: Cancels a pledge (may depend on project status).
 
+![alt text](image.png)
