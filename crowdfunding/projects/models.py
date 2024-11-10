@@ -10,6 +10,7 @@ class Project(models.Model):
    image = models.URLField()
    is_open = models.BooleanField()
    date_created = models.DateTimeField(auto_now_add=True)
+   current_funded_amount = models.DecimalField(max_digits=10, decimal_places=0, default=0)
    owner = models.ForeignKey(
       get_user_model(),
       on_delete=models.CASCADE,
