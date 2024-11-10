@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db.models import Sum
 
 # Create your models here.
 
@@ -10,12 +11,17 @@ class Project(models.Model):
    image = models.URLField()
    is_open = models.BooleanField()
    date_created = models.DateTimeField(auto_now_add=True)
-   current_funded_amount = models.DecimalField(max_digits=10, decimal_places=0, default=0)
+   current_funded_amount = models.IntegerField()
    owner = models.ForeignKey(
       get_user_model(),
       on_delete=models.CASCADE,
       related_name='owned_projects'
    )
+
+   def calculate_funding_progress(self):
+      pledges = self.pledges.aggregate(total_pledged=Sum('amount'))['total_pledged'] or 0
+      self.current_funded_amount = pledges
+      return (self.current_funded_amount / self.goal) * 100 if self.goal > 0 else 0
 
 class Pledge(models.Model):
    amount = models.IntegerField()
@@ -31,3 +37,8 @@ class Pledge(models.Model):
       on_delete=models.CASCADE,
       related_name='pledges'
    )
+
+   def save(self, *args, **kwargs):
+    super().save(*args, **kwargs)
+    self.project.calculate_funding_progress()
+    self.project.save()

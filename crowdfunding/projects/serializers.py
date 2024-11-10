@@ -22,6 +22,17 @@ class ProjectSerializer(serializers.ModelSerializer):
        model = apps.get_model('projects.Project')
        fields = '__all__'
 
+    
+class ProjectSerializer(serializers.ModelSerializer):
+    funding_progress = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = apps.get_model('projects.Project')
+        fields = '__all__'  # Include current_funded_amount in fields
+    
+    def get_funding_progress(self, obj):
+        return obj.calculate_funding_progress()
+
 
 class ProjectDetailSerializer(ProjectSerializer):
     pledges = PledgeSerializer(many=True, read_only=True)
