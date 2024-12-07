@@ -13,14 +13,15 @@ To make editing tables in Markdown easier, you might enjoy [the Markdown All-In-
 
 ```markdown
 # Crowdfunding Back End
-{{ your name here }}
+{{ Geng Liu }}
 
 ## Planning:
 ### Concept/Name
-{{ Include a short description of your website concept here. }}
+{{ to provide a platform for kids to upload their own projects which need supports with a goal, and other people can pledge to support the existing submitted projects }}
 
 ### Intended Audience/User Stories
-{{ Who are your intended audience? How will they use the website? }}
+{{ Who are your intended audience? - Kids to upload the projects, pledge is open to public
+How will they use the website? - kids to upload their own projects which need supports with a goal, and other people can pledge to support the existing submitted projects}}
 
 ### Front End Pages/Functionality
 - {{ A page on the front end }}
@@ -31,7 +32,7 @@ To make editing tables in Markdown easier, you might enjoy [the Markdown All-In-
     - {{ Another list of dot-points showing functionality }}
     - {{ etc }}
 
-### API Spec
+### API Spec - refer the api_spec.png file
 {{ Fill out the table below to define your endpoints. An example of what this might look like is shown at the bottom of the page. 
 
 It might look messy here in the PDF, but once it's rendered it looks very neat! 
@@ -49,9 +50,9 @@ It can be helpful to keep the markdown preview open in VS Code so that you can s
 An example API spec:  
 ![](./img/table.png)
 
-ERD
+Link to the deployed project: https://crowdfundinggl-f670add671c7.herokuapp.com/
 
-User:
+ERD
 
 refer to file erd.drawio
 
@@ -74,3 +75,4 @@ Pledge Endpoints
     3. DELETE /api/projects/{project_id}/pledges/{pledge_id}/: Cancels a pledge (may depend on project status).
 
 ![alt text](image.png)
+

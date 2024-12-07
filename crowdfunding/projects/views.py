@@ -92,14 +92,20 @@ class PledgeList(APIView):
         return Response(serializer.data)
     
     def post(self,request):
-        serializer = PledgeSerializer(data=request.data)
+        serializer = PledgeSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            serializer.save(supporter=request.user)  # Save the authenticated user as the pledge supporter, automatically assigns the currently logged-in user as the pledge supporter, ensuring the correct supporter information.
-            return Response(
+            try:
+                serializer.save()  # Supporter will automatically be set in serializer
+                return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED
-            )
+                )
+            except Exception as e:
+                print("Error during pledge creation:", str(e))
+                return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
+        print("Serializer errors:", serializer.errors)
+
         return Response(
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST

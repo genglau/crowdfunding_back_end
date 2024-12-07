@@ -43,5 +43,11 @@ class Pledge(models.Model):
 
    def save(self, *args, **kwargs):
     super().save(*args, **kwargs)
-    self.project.calculate_funding_progress()
-    self.project.save()
+
+    if self.project:  # Ensure project exists
+         try:
+            self.project.calculate_funding_progress()
+            self.project.save()
+         except Exception as e:
+                print("Error updating funding progress:", str(e))
+                raise e 
