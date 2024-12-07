@@ -16,6 +16,8 @@ import os
 import dj_database_url
 from dotenv import load_dotenv
 
+#print(f"Database Path: {DATABASES['default']['NAME']}")
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

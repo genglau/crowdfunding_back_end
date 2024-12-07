@@ -9,6 +9,12 @@ CustomUser = get_user_model()
 class PledgeSerializer(serializers.ModelSerializer):
     supporter = serializers.ReadOnlyField(source='supporter.id') #Add Update Method to PledgeSerializer
 
+    def create(self, validated_data):
+        # Assign the logged-in user as the supporter
+        request = self.context.get('request')
+        if request and hasattr(request, 'user'):
+            validated_data['supporter'] = request.user
+        return super().create(validated_data)
 
     class Meta:
         model = apps.get_model('projects.Pledge')

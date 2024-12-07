@@ -5,7 +5,10 @@ from .models import Project, Pledge
 
 @receiver(post_save, sender=Pledge)
 @receiver(post_delete, sender=Pledge)
-def update_project_funding(_sender, instance, **_kwargs):
+def update_project_funding(sender, instance, **_kwargs):
     project = instance.project
-    project.calculate_funding_progress()
+    project.current_funded_amount = sum(
+        pledge.amount for pledge in project.pledges.all()
+    )
+    
     project.save()
